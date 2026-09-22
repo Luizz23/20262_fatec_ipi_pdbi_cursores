@@ -1,3 +1,35 @@
+-- PROCESSANDO LINHA POR LINHA 
+DO $$
+
+DECLARE
+
+-- Declaração do CURSOR
+cur_nomes_youtubers_REFCURSOR;
+v_youtuber VARCHAR(200),
+BEGIN
+
+--2 Abertura do cursor
+OPEN cur_nomes_youtubers FOR
+SELECT youtuber
+FROM tb_top_youtubers;
+LOOP
+
+-- 3 Recuperação dos dados de interesse
+FETCH cur_nomes_youtubers INTO v_youtuber;
+EXIT WHEN NOT FOUND;
+RAISE NOTICE '%', v_youtuber;
+END LOOP;
+
+--4 Fechamento
+CLOSE cur_nomes_youtubers;
+END;
+$$
+
+
+
+ALTER TABLE tb_top_youtubers
+ ALTER COLUMN video_views TYPE BIGINT;
+
 
 -- ([A-Z])[A-Z]([A-Z]-[0-9]{4})
 
